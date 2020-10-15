@@ -30,11 +30,13 @@ public class Server {
 						byte[] data = new byte[1024];
 						DatagramPacket packet = new DatagramPacket(data, data.length);
 						socket.receive(packet);
-						System.out.println("MSG RECIVED");
+						System.out.println("listen() RECIVED MSG");
 						String msg = new String(data);
 						msg = msg.substring(0, msg.indexOf("\\e"));
 						if(!isCommand(msg, packet)) {
-							broadcast(msg);
+							String name = msg.substring(0, msg.indexOf(":"));
+							System.out.println(name);
+							broadcast(msg, name);
 						}
 						
 					}
@@ -52,6 +54,7 @@ public class Server {
 			msg = msg + "\\e";
 			byte [] data = msg.getBytes();
 			DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
+			System.out.println("Message was sent to: "+packet.getAddress()+":"+packet.getPort());
 			socket.send(packet);
 		}
 		catch(Exception e) {
@@ -59,9 +62,15 @@ public class Server {
 		}
 	}
 	
-	private static void broadcast(String msg) {
+	private static void broadcast(String msg, String sender) {
+		System.out.println("BROADCASTING.");
 		for(ClientInfo info : clients) {
-			send(msg, info.getAddress(), info.getPort());
+			System.out.println(info.getName());
+			System.out.println(sender);
+			System.out.println(sender != info.getName());
+			if(!sender.equals(info.getName())) {
+				send(msg, info.getAddress(), info.getPort());
+			}
 		}
 	}
 	
@@ -74,7 +83,8 @@ public class Server {
 			String name = msg.substring(msg.indexOf(":")+1);
 			clients.add(new ClientInfo(packet.getAddress(), clientId, packet.getPort(), name));
 			clientId++;
-			broadcast("User " + name + " connected!");
+			broadcast("User " + name + " connected!", "Server");
+			System.out.println("User " + name + " connected!");
 			return true;
 		}
 		return false;

@@ -4,7 +4,7 @@ import java.net.InetAddress;
 
 public class Client {
 	
-	private DatagramSocket socket;
+	private static DatagramSocket socket;
 	private InetAddress address;
 	private int port;
 	private String name;
@@ -21,12 +21,13 @@ public class Client {
 			e.printStackTrace();
 		}
 		
-		send("\\con:test");
+		send("\\con:"+this.name);
+		listen();
 	}
 	
 	public void send(String msg) {
 		try {
-			msg = this.name + ":" + msg + "\\e";
+			msg = msg + "\\e";
 			byte [] data = msg.getBytes();
 			DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
 			socket.send(packet);
@@ -34,6 +35,29 @@ public class Client {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private static void listen() {
+		Thread listenThread = new Thread("Chat Listener") {
+			public void run() {
+				try {
+					while(true) {
+						byte[] data = new byte[1024];
+						DatagramPacket packet = new DatagramPacket(data, data.length);
+						socket.receive(packet);
+						String msg = new String(data);
+						msg = msg.substring(0, msg.indexOf("\\e"));
+						//ADD THIS MSG IN THE MSG BOX
+						System.out.println(msg);
+						
+					}
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		listenThread.start();
 	}
 	
 }
