@@ -8,6 +8,7 @@ public class Client {
 	private InetAddress address;
 	private int port;
 	private String name;
+	private String message;
 	
 	public Client(String address, int port, String name) {
 		try {
@@ -37,7 +38,7 @@ public class Client {
 		}
 	}
 	
-	private static void listen() {
+	public void listen() {
 		Thread listenThread = new Thread("Chat Listener") {
 			public void run() {
 				try {
@@ -47,17 +48,26 @@ public class Client {
 						socket.receive(packet);
 						String msg = new String(data);
 						msg = msg.substring(0, msg.indexOf("\\e"));
+						message = msg;
 						//ADD THIS MSG IN THE MSG BOX
 						System.out.println(msg);
+						
 						
 					}
 					
 				}catch(Exception e) {
 					e.printStackTrace();
 				}
+				
 			}
+			
 		};
 		listenThread.start();
+	}
+	
+	public String GetMessage()
+	{
+		return message;
 	}
 	
 }
