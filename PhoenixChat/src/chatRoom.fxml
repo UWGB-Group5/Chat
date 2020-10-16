@@ -6,10 +6,13 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="818.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomController">
    <children>
       <Pane prefHeight="516.0" prefWidth="192.0" style="-fx-background-color: green;">
          <children>
@@ -22,9 +25,52 @@
          </children>
       </Pane>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="319.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" />
-      <TextField alignment="TOP_LEFT" layoutX="318.0" layoutY="419.0" prefHeight="83.0" prefWidth="403.0" promptText="Type your message..." />
-      <Button layoutX="736.0" layoutY="477.0" mnemonicParsing="false" text="Send" />
+      <TextField fx:id="MessageBoxTextField" alignment="TOP_LEFT" layoutX="307.0" layoutY="419.0" prefHeight="83.0" prefWidth="403.0" promptText="Type your message..." />
+      <Button fx:id="SendButton" layoutX="757.0" layoutY="470.0" mnemonicParsing="false" onAction="#SendButtonPressed" text="Send" />
       <Label layoutX="205.0" layoutY="419.0" text="Display Name:" />
       <Label fx:id="displayNameLabel" layoutX="229.0" layoutY="452.0" />
+      <GridPane layoutX="229.0" layoutY="34.0" prefHeight="355.0" prefWidth="559.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="SentMessage7" GridPane.rowIndex="1" />
+            <Label fx:id="SentMessage6" GridPane.rowIndex="2" />
+            <Label fx:id="SentMessage5" GridPane.rowIndex="3" />
+            <Label fx:id="SentMessage4" GridPane.rowIndex="4" />
+            <Label fx:id="SentMessage3" GridPane.rowIndex="5" />
+            <Label fx:id="SentMessage2" GridPane.rowIndex="6" />
+            <Label fx:id="SentMessage1" GridPane.rowIndex="7" />
+            <Label fx:id="RecievedMessage7" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label fx:id="RecievedMessage6" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <Label fx:id="RecievedMessage5" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+            <Label fx:id="RecievedMessage4" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+            <Label fx:id="RecievedMessage3" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+            <Label fx:id="RecievedMessage2" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+            <Label fx:id="RecievedMessage1" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+            <Label text="Sent Message" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label text="Recieved Message" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+      <Button fx:id="GetMessageButton" layoutX="734.0" layoutY="439.0" mnemonicParsing="false" onAction="#MessageButtonPressed" text="Get Messages" />
    </children>
 </AnchorPane>
