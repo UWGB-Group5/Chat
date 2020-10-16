@@ -29,9 +29,14 @@ public class loginController {
 	    		//Store the user's input into variable displayName
 	    		String displayName = displayNameTextField.getText();
 	    		
+	    		//Transfer name to other controller
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("chatRoom.fxml"));
+	    		Parent root = loader.load();
+	    		
 	    		//Change the scene
-	    		Parent parent2 = FXMLLoader.load(getClass().getResource("chatRoom.fxml"));
-	    		Scene scene2 = new Scene(parent2);
+	    		roomController roomCtrl = loader.getController();
+	    		roomCtrl.transferName(displayName);
+	    		Scene scene2 = new Scene(root);
 	    		
 	    		//Get the stage information
 	    		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -42,7 +47,7 @@ public class loginController {
 	    	}
 	    	
 	    	catch(Exception e){
-	    		System.out.println("There was an error");
+	    		e.printStackTrace();
 	    	}
 	    	
 	}

@@ -15,6 +15,7 @@ public class roomController {
 	
 	private String SentText;
 	private String RecievedText;
+	private static String name;
 	Client client;
 
 	@FXML
@@ -93,7 +94,7 @@ public class roomController {
 		
 	    @FXML
 	    public void initialize() {
-			client = new Client("localhost", 7654, "Matt");
+//			client = new Client("localhost", 7654, name);
 			//client.listen();
 	    }
 		
@@ -109,7 +110,7 @@ public class roomController {
 				
 				// Validates for Sent message box labels being empty then sets text values
 				SentText = MessageBoxTextField.getText();
-				client.send("Matt: " + SentText + "\\e");
+				client.send(name +  ": " + SentText + "\\e");
 				if (SentMessage1.getText() == "" && RecievedMessage1.getText() == "") 
 				{
 					SentMessage1.setText(SentText);
@@ -199,5 +200,11 @@ public class roomController {
 				RecievedMessage2.setText(RecievedMessage1.getText());
 				RecievedMessage1.setText(RecievedText);
 			}
+		}
+
+		public void transferName(String text) {
+			name = text;
+			client = new Client("localhost", 7654, name);
+			
 		}
 }
