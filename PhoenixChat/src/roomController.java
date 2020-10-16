@@ -91,8 +91,9 @@ public class roomController {
 				messages.add(new Label("You: " + MessageBoxTextField.getText()));
 	            messages.get(index).setAlignment(Pos.BOTTOM_LEFT);
 	            chatBoxSend.getChildren().add(messages.get(index));
+	            chatBoxReceive.getChildren().add(new Label(""));
 //	            System.out.println(name + ":"+messages.get(index)+"\\e");
-	            client.send(name + ":"+messages.get(index).getText()+"\\e");
+	            client.send(name + ":"+MessageBoxTextField.getText()+"\\e");
 	            index++;
 	            MessageBoxTextField.setText("");
 	                      
@@ -102,7 +103,7 @@ public class roomController {
 		
 		public void transferName(String text) {
 			name = text;
-			client = new Client("localhost", 7654, name, chatBoxReceive);
+			client = new Client("localhost", 7654, name, chatBoxReceive, chatBoxSend);
 			
 		}
 }

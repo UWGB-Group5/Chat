@@ -18,7 +18,7 @@ public class Client {
 	private int index = 0;
 	private ArrayList<Label> incomingMessages = new ArrayList<>();
 	
-	public Client(String address, int port, String name, VBox chatBoxReceive) {
+	public Client(String address, int port, String name, VBox chatBoxReceive, VBox chatBoxSend) {
 		try {
 			this.address = InetAddress.getByName(address);
 			this.port = port;
@@ -31,7 +31,7 @@ public class Client {
 		}
 		
 		send("\\con:"+this.name);
-		listen(chatBoxReceive);
+		listen(chatBoxReceive, chatBoxSend);
 	}
 	
 	public void send(String msg) {
@@ -46,7 +46,7 @@ public class Client {
 		}
 	}
 	
-	public void listen(VBox chatBoxReceive) {
+	public void listen(VBox chatBoxReceive, VBox chatBoxSend) {
 		Thread listenThread = new Thread("Chat Listener") {
 			public void run() {
 				try {
@@ -63,6 +63,7 @@ public class Client {
 				            	incomingMessages.add(new Label(message));
 								incomingMessages.get(index).setAlignment(Pos.BOTTOM_LEFT);
 					            chatBoxReceive.getChildren().add(incomingMessages.get(index));
+					            chatBoxSend.getChildren().add(new Label(""));
 					            index++;
 				            }
 				        });
