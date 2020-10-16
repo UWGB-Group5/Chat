@@ -17,7 +17,7 @@
             <Button fx:id="exitRoomButton" layoutX="61.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitRoomButtonPressed" text="Exit Room" />
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-4.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../Desktop/phoenix.jpg" />
+                  <Image url="@phoenix.jpg" />
                </image>
             </ImageView>
          </children>

@@ -42,7 +42,7 @@
       </Label>
       <ImageView fitHeight="105.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../Desktop/phoenix.jpg" />
+            <Image url="@phoenix.jpg" />
          </image>
          <GridPane.margin>
             <Insets bottom="10.0" left="40.0" top="10.0" />
