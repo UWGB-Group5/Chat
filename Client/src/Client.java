@@ -1,16 +1,24 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ArrayList;
+
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 public class Client {
 	
-	private static DatagramSocket socket;
+	public static DatagramSocket socket;
 	private InetAddress address;
 	private int port;
 	private String name;
 	private String message;
+	private int index = 0;
+	private ArrayList<Label> incomingMessages = new ArrayList<>();
 	
-	public Client(String address, int port, String name) {
+	public Client(String address, int port, String name, VBox chatBoxReceive) {
 		try {
 			this.address = InetAddress.getByName(address);
 			this.port = port;
@@ -23,7 +31,7 @@ public class Client {
 		}
 		
 		send("\\con:"+this.name);
-		listen();
+		listen(chatBoxReceive);
 	}
 	
 	public void send(String msg) {
@@ -38,7 +46,7 @@ public class Client {
 		}
 	}
 	
-	public void listen() {
+	public void listen(VBox chatBoxReceive) {
 		Thread listenThread = new Thread("Chat Listener") {
 			public void run() {
 				try {
@@ -48,9 +56,18 @@ public class Client {
 						socket.receive(packet);
 						String msg = new String(data);
 						msg = msg.substring(0, msg.indexOf("\\e"));
-						message = msg;
 						//ADD THIS MSG IN THE MSG BOX
-						System.out.println(msg);
+						message = msg;
+						Platform.runLater(new Runnable() {
+				            @Override public void run() {
+				            	incomingMessages.add(new Label(message));
+								incomingMessages.get(index).setAlignment(Pos.BOTTOM_LEFT);
+					            chatBoxReceive.getChildren().add(incomingMessages.get(index));
+					            index++;
+				            }
+				        });
+						
+						
 						
 						
 					}

@@ -1,14 +1,23 @@
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class roomController {
@@ -16,7 +25,15 @@ public class roomController {
 	private String SentText;
 	private String RecievedText;
 	private static String name;
+	private static DatagramSocket socket;
+	private InetAddress address;
 	Client client;
+	//private final VBox chatBox = new VBox(5);
+	private ArrayList<Label> messages = new ArrayList<>();
+	private ArrayList<Label> IncomingMessages = new ArrayList<>();
+	//private ScrollPane container = new ScrollPane();
+	private int index = 0;
+	private int incIndex = 0;
 
 	@FXML
 	private Button exitRoomButton;
@@ -24,57 +41,21 @@ public class roomController {
 	@FXML
 	private Button SendButton;
 	
-	@FXML
-	private Button GetMessages;
-	
     @FXML
     private TextField MessageBoxTextField;
 	
 	@FXML
 	private Label displayNameLabel;
 	
-    @FXML
-    private Label SentMessage7;
-
-    @FXML
-    private Label SentMessage6;
-
-    @FXML
-    private Label SentMessage5;
-
-    @FXML
-    private Label SentMessage4;
-
-    @FXML
-    private Label SentMessage3;
-
-    @FXML
-    private Label SentMessage2;
-
-    @FXML
-    private Label SentMessage1;
-
-    @FXML
-    private Label RecievedMessage7;
-
-    @FXML
-    private Label RecievedMessage6;
-
-    @FXML
-    private Label RecievedMessage5;
-
-    @FXML
-    private Label RecievedMessage4;
-
-    @FXML
-    private Label RecievedMessage3;
-
-    @FXML
-    private Label RecievedMessage2;
-
-    @FXML
-    private Label RecievedMessage1;
+	@FXML
+	private VBox chatBoxSend;
 	
+	@FXML
+	public VBox chatBoxReceive;
+	
+	@FXML
+	private ScrollPane container;
+
 	//Set label equal to user's display name from login (Figure out how to share info between scenes)
 	
 	
@@ -93,118 +74,35 @@ public class roomController {
 		}
 		
 	    @FXML
-	    public void initialize() {
-//			client = new Client("localhost", 7654, name);
-			//client.listen();
+	    public void initialize() throws SocketException {
+	        //container.setContent(chatBoxSend); 
+	    	Platform.setImplicitExit(false);
 	    }
 		
 		@FXML
 		void SendButtonPressed(ActionEvent event) {
 			
-			if (MessageBoxTextField.getText() == "")
+			if (MessageBoxTextField.getText().trim().isEmpty())
 			{
 				//Display error message to enter text
 			}
 			else
 			{
-				
-				// Validates for Sent message box labels being empty then sets text values
-				SentText = MessageBoxTextField.getText();
-				client.send(name +  ": " + SentText + "\\e");
-				if (SentMessage1.getText() == "" && RecievedMessage1.getText() == "") 
-				{
-					SentMessage1.setText(SentText);
-				}
-				else if (SentMessage2.getText() == "" && RecievedMessage2.getText() == "") 
-				{
-					SentMessage2.setText(SentText);
-				}
-				else if (SentMessage3.getText() == "" && RecievedMessage3.getText() == "") 
-				{
-					SentMessage3.setText(SentText);
-				}
-				else if (SentMessage4.getText() == "" && RecievedMessage4.getText() == "") 
-				{
-					SentMessage4.setText(SentText);
-				}
-				else if (SentMessage5.getText() == "" && RecievedMessage5.getText() == "") 
-				{
-					SentMessage5.setText(SentText);
-				}
-				else if (SentMessage6.getText() == "" && RecievedMessage6.getText() == "") 
-				{
-					SentMessage6.setText(SentText);
-				}
-				else if (SentMessage7.getText() == "" && RecievedMessage7.getText() == "") 
-				{
-					SentMessage7.setText(SentText);
-				}
-				else
-				{
-					SentMessage7.setText(SentMessage6.getText());
-					SentMessage6.setText(SentMessage5.getText());
-					SentMessage5.setText(SentMessage4.getText());
-					SentMessage4.setText(SentMessage3.getText());
-					SentMessage3.setText(SentMessage2.getText());
-					SentMessage2.setText(SentMessage1.getText());
-					SentMessage1.setText(SentText);
-				}			
+				messages.add(new Label("You: " + MessageBoxTextField.getText()));
+	            messages.get(index).setAlignment(Pos.BOTTOM_LEFT);
+	            chatBoxSend.getChildren().add(messages.get(index));
+//	            System.out.println(name + ":"+messages.get(index)+"\\e");
+	            client.send(name + ":"+messages.get(index).getText()+"\\e");
+	            index++;
+	            MessageBoxTextField.setText("");
+	                      
 			}
 			
 		}
 		
-		@FXML
-		void MessageButtonPressed ()
-		{
-			// Validates for Recieved message box labels being empty then sets text value
-			RecievedText = client.GetMessage();
-			if (RecievedText == "" || RecievedText == null)
-			{
-				
-			}			
-			else if (SentMessage1.getText() == "" && RecievedMessage1.getText() == "") 
-			{
-				RecievedMessage1.setText(RecievedText);
-			}
-			else if (SentMessage2.getText() == "" && RecievedMessage2.getText() == "") 
-			{
-				RecievedMessage2.setText(RecievedText);
-			}
-			else if (SentMessage3.getText() == "" && RecievedMessage3.getText() == "") 
-			{
-				RecievedMessage3.setText(RecievedText);
-			}
-			else if (SentMessage4.getText() == "" && RecievedMessage4.getText() == "") 
-			{
-				RecievedMessage4.setText(RecievedText);
-			}
-			else if (SentMessage5.getText() == "" && RecievedMessage5.getText() == "") 
-			{
-				RecievedMessage5.setText(RecievedText);
-			}
-			else if (SentMessage6.getText() == "" && RecievedMessage6.getText() == "") 
-			{
-				RecievedMessage6.setText(RecievedText);
-			}
-			else if (SentMessage7.getText() == "" && RecievedMessage7.getText() == "") 
-			{
-				RecievedMessage7.setText(RecievedText);
-			}
-			else
-			{
-				RecievedMessage7.setText(RecievedMessage6.getText());
-				RecievedMessage6.setText(RecievedMessage5.getText());
-				RecievedMessage5.setText(RecievedMessage4.getText());
-				RecievedMessage4.setText(RecievedMessage3.getText());
-				RecievedMessage3.setText(RecievedMessage2.getText());
-				RecievedMessage2.setText(RecievedMessage1.getText());
-				RecievedMessage1.setText(RecievedText);
-			}
-		}
-
 		public void transferName(String text) {
 			name = text;
-			client = new Client("localhost", 7654, name);
+			client = new Client("localhost", 7654, name, chatBoxReceive);
 			
 		}
 }
