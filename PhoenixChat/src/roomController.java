@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -47,47 +48,55 @@ public class roomController {
 	@FXML
 	private ScrollPane container;
 	//what happens when exit room button is pressed
-		@FXML
-		void exitRoomButtonPressed(ActionEvent event) throws IOException {
-		
-				//Change the scene
-				Parent root = FXMLLoader.load(getClass().getResource("chatLogin.fxml"));
-				Scene scene1 = new Scene(root);
-				
-				//Get the stage information
-				Stage window2 = (Stage) ((Node)event.getSource()).getScene().getWindow();
-				window2.setScene(scene1);
-	    		window2.show();
-		}
-		
-	    @FXML
-	    public void initialize() throws SocketException {
-	        //container.setContent(chatBoxSend); 
-	    	Platform.setImplicitExit(false);
-	    }
-		
-		@FXML
-		void SendButtonPressed(ActionEvent event) {
+	@FXML
+	void exitRoomButtonPressed(ActionEvent event) throws IOException {
+	
+			//Change the scene
+			Parent root = FXMLLoader.load(getClass().getResource("chatLogin.fxml"));
+			Scene scene1 = new Scene(root);
 			
-			if (!MessageBoxTextField.getText().trim().isEmpty())
-			{
-				messages.add(new Label("You: " + MessageBoxTextField.getText()));
-	            messages.get(index).setAlignment(Pos.BOTTOM_LEFT);
-	            messages.get(index).setId("chat");
-	            messages.get(index).setWrapText(true);;
-	            chatBoxSend.getChildren().add(messages.get(index));
-	            chatBoxReceive.getChildren().add(new Label(""));
+			//Get the stage information
+			Stage window2 = (Stage) ((Node)event.getSource()).getScene().getWindow();
+			window2.setScene(scene1);
+    		window2.show();
+	}
+	
+    @FXML
+    //Enter now activates SendButton.
+    public void initialize() throws SocketException {
+        //container.setContent(chatBoxSend); 
+    	Platform.setImplicitExit(false);
+    	MessageBoxTextField.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER) {
+            	SendButton.fire();
+            }
+        });
+    }
+	
+	@FXML
+	void SendButtonPressed(ActionEvent event) {
+		
+		if (!MessageBoxTextField.getText().trim().isEmpty())
+		{
+			messages.add(new Label("You: " + MessageBoxTextField.getText()));
+            messages.get(index).setAlignment(Pos.BOTTOM_LEFT);
+            messages.get(index).setId("chat");
+            messages.get(index).setWrapText(true);;
+            chatBoxSend.getChildren().add(messages.get(index));
+            chatBoxReceive.getChildren().add(new Label(""));
 //	            System.out.println(name + ":"+messages.get(index)+"\\e");
-	            client.send(name + ":"+MessageBoxTextField.getText()+"\\e");
-	            index++;
-	            MessageBoxTextField.setText("");
-			}
-			
+            client.send(name + ":"+MessageBoxTextField.getText()+"\\e");
+            index++;
+            MessageBoxTextField.setText("");
 		}
 		
-		public void transferName(String text) {
-			name = text;
-			client = new Client("localhost", 7654, name, chatBoxReceive, chatBoxSend);
-			
-		}
+	}
+	
+	
+	
+	public void transferName(String text) {
+		name = text;
+		client = new Client("localhost", 7654, name, chatBoxReceive, chatBoxSend);
+		
+	}
 }
