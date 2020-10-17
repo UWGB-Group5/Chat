@@ -37,6 +37,7 @@ public class loginController {
 	    		roomController roomCtrl = loader.getController();
 	    		roomCtrl.transferName(displayName);
 	    		Scene scene2 = new Scene(root);
+	    		scene2.getStylesheets().add("style.css");
 	    		
 	    		//Get the stage information
 	    		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();

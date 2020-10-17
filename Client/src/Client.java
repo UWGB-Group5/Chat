@@ -1,7 +1,11 @@
+import java.awt.Color;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -17,6 +21,7 @@ public class Client {
 	private String message;
 	private int index = 0;
 	private ArrayList<Label> incomingMessages = new ArrayList<>();
+	private Map<String, Color> chatColors = new HashMap<String, Color>();
 	
 	public Client(String address, int port, String name, VBox chatBoxReceive, VBox chatBoxSend) {
 		try {
@@ -58,10 +63,24 @@ public class Client {
 						msg = msg.substring(0, msg.indexOf("\\e"));
 						//ADD THIS MSG IN THE MSG BOX
 						message = msg;
+						
+						try {
+							name = message.substring(0, message.indexOf(":"));
+						}
+						catch(Exception e) {
+							name = "Server";
+						}
+						Color checkMap = chatColors.get(name);
+						if(checkMap == null) {
+							chatColors.put(name, getRandomColor());
+						}
 						Platform.runLater(new Runnable() {
 				            @Override public void run() {
 				            	incomingMessages.add(new Label(message));
+				            	incomingMessages.get(index).setId("chat");
 								incomingMessages.get(index).setAlignment(Pos.BOTTOM_LEFT);
+								Color color = chatColors.get(name);
+								incomingMessages.get(index).setStyle("-fx-background-color: rgb("+color.getRed()+","+color.getGreen()+","+color.getBlue()+")");
 					            chatBoxReceive.getChildren().add(incomingMessages.get(index));
 					            chatBoxSend.getChildren().add(new Label(""));
 					            index++;
@@ -86,6 +105,15 @@ public class Client {
 	public String GetMessage()
 	{
 		return message;
+	}
+	
+	public Color getRandomColor() {
+		Random rand = new Random();
+		float r = rand.nextFloat();
+		float g = rand.nextFloat();
+		float b = rand.nextFloat();
+		Color color =  new Color(r, g, b);
+		return color;
 	}
 	
 }

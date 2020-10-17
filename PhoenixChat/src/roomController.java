@@ -1,7 +1,4 @@
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
 
@@ -22,18 +19,12 @@ import javafx.stage.Stage;
 
 public class roomController {
 	
-	private String SentText;
-	private String RecievedText;
 	private static String name;
-	private static DatagramSocket socket;
-	private InetAddress address;
 	Client client;
 	//private final VBox chatBox = new VBox(5);
 	private ArrayList<Label> messages = new ArrayList<>();
-	private ArrayList<Label> IncomingMessages = new ArrayList<>();
 	//private ScrollPane container = new ScrollPane();
 	private int index = 0;
-	private int incIndex = 0;
 
 	@FXML
 	private Button exitRoomButton;
@@ -55,10 +46,6 @@ public class roomController {
 	
 	@FXML
 	private ScrollPane container;
-
-	//Set label equal to user's display name from login (Figure out how to share info between scenes)
-	
-	
 	//what happens when exit room button is pressed
 		@FXML
 		void exitRoomButtonPressed(ActionEvent event) throws IOException {
@@ -82,21 +69,18 @@ public class roomController {
 		@FXML
 		void SendButtonPressed(ActionEvent event) {
 			
-			if (MessageBoxTextField.getText().trim().isEmpty())
-			{
-				//Display error message to enter text
-			}
-			else
+			if (!MessageBoxTextField.getText().trim().isEmpty())
 			{
 				messages.add(new Label("You: " + MessageBoxTextField.getText()));
 	            messages.get(index).setAlignment(Pos.BOTTOM_LEFT);
+	            messages.get(index).setId("chat");
+	            messages.get(index).setWrapText(true);;
 	            chatBoxSend.getChildren().add(messages.get(index));
 	            chatBoxReceive.getChildren().add(new Label(""));
 //	            System.out.println(name + ":"+messages.get(index)+"\\e");
 	            client.send(name + ":"+MessageBoxTextField.getText()+"\\e");
 	            index++;
 	            MessageBoxTextField.setText("");
-	                      
 			}
 			
 		}
