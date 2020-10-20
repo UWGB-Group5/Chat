@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -22,9 +23,7 @@ public class roomController {
 	
 	private static String name;
 	Client client;
-	//private final VBox chatBox = new VBox(5);
 	private ArrayList<Label> messages = new ArrayList<>();
-	//private ScrollPane container = new ScrollPane();
 	private int index = 0;
 
 	@FXML
@@ -43,7 +42,13 @@ public class roomController {
 	private VBox chatBoxSend;
 	
 	@FXML
-	public VBox chatBoxReceive;
+	private VBox receiveBoxSend;
+	
+	@FXML
+	private HBox hboxContainer;
+	
+//	@FXML
+//	public VBox chatBoxReceive;
 	
 	@FXML
 	private ScrollPane container;
@@ -64,8 +69,8 @@ public class roomController {
     @FXML
     //Enter now activates SendButton.
     public void initialize() throws SocketException {
-        //container.setContent(chatBoxSend); 
     	Platform.setImplicitExit(false);
+    	container.vvalueProperty().bind(chatBoxSend.heightProperty());
     	MessageBoxTextField.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.ENTER) {
             	SendButton.fire();
@@ -83,7 +88,7 @@ public class roomController {
             messages.get(index).setId("chat");
             messages.get(index).setWrapText(true);;
             chatBoxSend.getChildren().add(messages.get(index));
-            chatBoxReceive.getChildren().add(new Label(""));
+            receiveBoxSend.getChildren().add(new Label(""));
 //	            System.out.println(name + ":"+messages.get(index)+"\\e");
             client.send(name + ":"+MessageBoxTextField.getText()+"\\e");
             index++;
@@ -96,7 +101,7 @@ public class roomController {
 	
 	public void transferName(String text) {
 		name = text;
-		client = new Client("localhost", 7654, name, chatBoxReceive, chatBoxSend);
+		client = new Client("localhost", 7654, name, receiveBoxSend, chatBoxSend);
 		
 	}
 }
