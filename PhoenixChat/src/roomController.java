@@ -102,6 +102,7 @@ public class roomController {
 	public void transferName(String text) {
 		name = text;
 		client = new Client("localhost", 7654, name, receiveBoxSend, chatBoxSend);
+		displayNameLabel.setText(name);
 		
 	}
 }
