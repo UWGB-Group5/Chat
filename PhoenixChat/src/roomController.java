@@ -47,9 +47,6 @@ public class roomController {
 	@FXML
 	private HBox hboxContainer;
 	
-//	@FXML
-//	public VBox chatBoxReceive;
-	
 	@FXML
 	private ScrollPane container;
 	//what happens when exit room button is pressed
@@ -97,12 +94,9 @@ public class roomController {
 		
 	}
 	
-	
-	
 	public void transferName(String text) {
 		name = text;
 		client = new Client("localhost", 7654, name, receiveBoxSend, chatBoxSend);
 		displayNameLabel.setText(name);
-		
 	}
 }

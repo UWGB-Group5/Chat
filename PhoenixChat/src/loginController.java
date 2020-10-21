@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,10 +15,6 @@ public class loginController {
 	
 	@FXML
 	private Button enterRoomButton;
-	
-	
-	
-
 	
 	//what happens when enter room button is pressed
 	@FXML
@@ -50,7 +44,6 @@ public class loginController {
 	    	catch(Exception e){
 	    		e.printStackTrace();
 	    	}
-	    	
 	}
 	
 }

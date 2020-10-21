@@ -13,6 +13,14 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class Client {
+	/**
+   * Client class that controls chat client. Sends and listens for messages.
+   *  @param address  Server address
+   *  @param port  Server port
+   *  @param name  Clients name
+   *  @param chatBoxReceive  JavaFX VBox object, will print incoming messages.
+   *  @param chatBoxSend JavaFX VBox object, will print messages that are send.
+   */
 	
 	public static DatagramSocket socket;
 	private InetAddress address;
@@ -39,6 +47,7 @@ public class Client {
 		listen(chatBoxReceive, chatBoxSend);
 	}
 	
+	//Sends a message to a socket.
 	public void send(String msg) {
 		try {
 			msg = msg + "\\e";
@@ -51,6 +60,7 @@ public class Client {
 		}
 	}
 	
+	//Starts a thread that listens for messages from server
 	public void listen(VBox chatBoxReceive, VBox chatBoxSend) {
 		Thread listenThread = new Thread("Chat Listener") {
 			public void run() {
@@ -61,19 +71,23 @@ public class Client {
 						socket.receive(packet);
 						String msg = new String(data);
 						msg = msg.substring(0, msg.indexOf("\\e"));
-						//ADD THIS MSG IN THE MSG BOX
 						message = msg;
 						
+						//Checks if its a message from a user or the server.
 						try {
 							name = message.substring(0, message.indexOf(":"));
 						}
 						catch(Exception e) {
 							name = "Server";
 						}
+						
+						//Check if new user and assigns a color, else gets the color that was added before.
 						Color checkMap = chatColors.get(name);
 						if(checkMap == null) {
 							chatColors.put(name, getRandomColor());
 						}
+						
+						//Add messages into a ArrayList object, then adds them to VBox.
 						Platform.runLater(new Runnable() {
 				            @Override public void run() {
 				            	incomingMessages.add(new Label(message));
@@ -87,9 +101,6 @@ public class Client {
 				            }
 				        });
 						
-						
-						
-						
 					}
 					
 				}catch(Exception e) {
@@ -101,12 +112,8 @@ public class Client {
 		};
 		listenThread.start();
 	}
-	
-	public String GetMessage()
-	{
-		return message;
-	}
-	
+
+	//Generates random color.
 	public Color getRandomColor() {
 		Random rand = new Random();
 		float r = rand.nextFloat();
