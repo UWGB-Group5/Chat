@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.net.SocketException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -51,6 +53,12 @@ public class roomController {
 	
 	@FXML
 	private ScrollPane container;
+	
+	//Create and format date object
+	LocalDateTime dateObj = LocalDateTime.now();
+	DateTimeFormatter formatDateObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	String formattedDate = dateObj.format(formatDateObj);
+	
 	//what happens when exit room button is pressed
 	@FXML
 	void exitRoomButtonPressed(ActionEvent event) throws IOException {
@@ -82,7 +90,7 @@ public class roomController {
 		
 		if (!MessageBoxTextField.getText().trim().isEmpty())
 		{
-			messages.add(new Label("You: " + MessageBoxTextField.getText() + "\n"+ currentDate.toString())); //Add timestamp to bottom of message
+			messages.add(new Label("You: " + MessageBoxTextField.getText() + "\n"+ formattedDate)); //Add timestamp to bottom of message
             messages.get(index).setAlignment(Pos.BOTTOM_LEFT);
             messages.get(index).setId("chat");
             messages.get(index).setWrapText(true);;
