@@ -23,6 +23,7 @@ public class Client {
    */
 	
 	public static DatagramSocket socket;
+	private FileHandler fhl = new FileHandler("ChatHistory.txt");
 	private InetAddress address;
 	private int port;
 	private String name;
@@ -42,7 +43,7 @@ public class Client {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+		fhl.setUpFile();
 		send("\\con:"+this.name);
 		listen(chatBoxReceive, chatBoxSend);
 	}
@@ -51,6 +52,7 @@ public class Client {
 	public void send(String msg) {
 		try {
 			msg = msg + "\\e";
+			fhl.write(msg.replace("\\e", ""));
 			byte [] data = msg.getBytes();
 			DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
 			socket.send(packet);
