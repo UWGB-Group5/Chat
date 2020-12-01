@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -25,6 +26,7 @@ public class roomController {
 	Client client;
 	private ArrayList<Label> messages = new ArrayList<>();
 	private int index = 0;
+	private Date currentDate = new Date();
 
 	@FXML
 	private Button exitRoomButton;
@@ -80,7 +82,7 @@ public class roomController {
 		
 		if (!MessageBoxTextField.getText().trim().isEmpty())
 		{
-			messages.add(new Label("You: " + MessageBoxTextField.getText()));
+			messages.add(new Label("You: " + MessageBoxTextField.getText() + "\n"+ currentDate.toString())); //Add timestamp to bottom of message
             messages.get(index).setAlignment(Pos.BOTTOM_LEFT);
             messages.get(index).setId("chat");
             messages.get(index).setWrapText(true);;
@@ -93,6 +95,7 @@ public class roomController {
 		}
 		
 	}
+	
 	
 	public void transferName(String text) {
 		name = text;
