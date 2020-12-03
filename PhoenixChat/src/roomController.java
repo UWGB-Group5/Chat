@@ -32,8 +32,12 @@ public class roomController {
 	private ArrayList<Label> messages = new ArrayList<>();
 	private int index = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private Color currentColor = Color.BLACK;
 	private Image currentImage;
+=======
+	private Date currentDate = new Date();
+>>>>>>> 3579b084fbfedddc2c461bd9c78c1462a755a7b1
 =======
 	private Date currentDate = new Date();
 >>>>>>> 3579b084fbfedddc2c461bd9c78c1462a755a7b1
@@ -121,9 +125,13 @@ public class roomController {
 		if (!MessageBoxTextField.getText().trim().isEmpty())
 		{
 <<<<<<< HEAD
+<<<<<<< HEAD
 			Label newMessage = new Label("You: " + MessageBoxTextField.getText());
 			newMessage.setTextFill(currentColor);
 			messages.add(newMessage);
+=======
+			messages.add(new Label("You: " + MessageBoxTextField.getText() + "\n"+ formattedDate)); //Add timestamp to bottom of message
+>>>>>>> 3579b084fbfedddc2c461bd9c78c1462a755a7b1
 =======
 			messages.add(new Label("You: " + MessageBoxTextField.getText() + "\n"+ formattedDate)); //Add timestamp to bottom of message
 >>>>>>> 3579b084fbfedddc2c461bd9c78c1462a755a7b1
