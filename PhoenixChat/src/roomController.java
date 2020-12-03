@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.net.SocketException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -14,9 +17,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class roomController {
@@ -25,6 +31,12 @@ public class roomController {
 	Client client;
 	private ArrayList<Label> messages = new ArrayList<>();
 	private int index = 0;
+<<<<<<< HEAD
+	private Color currentColor = Color.BLACK;
+	private Image currentImage;
+=======
+	private Date currentDate = new Date();
+>>>>>>> 3579b084fbfedddc2c461bd9c78c1462a755a7b1
 
 	@FXML
 	private Button exitRoomButton;
@@ -47,8 +59,17 @@ public class roomController {
 	@FXML
 	private HBox hboxContainer;
 	
+    @FXML
+    private ImageView DisplayIconImageView;
+	
 	@FXML
 	private ScrollPane container;
+	
+	//Create and format date object
+	LocalDateTime dateObj = LocalDateTime.now();
+	DateTimeFormatter formatDateObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	String formattedDate = dateObj.format(formatDateObj);
+	
 	//what happens when exit room button is pressed
 	@FXML
 	void exitRoomButtonPressed(ActionEvent event) throws IOException {
@@ -61,6 +82,25 @@ public class roomController {
 			Stage window2 = (Stage) ((Node)event.getSource()).getScene().getWindow();
 			window2.setScene(scene1);
     		window2.show();
+	}
+	
+    @FXML
+    void UserPreferencesButtonPressed(ActionEvent event) throws Exception {
+		
+		//Transfer name to other controller
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("UserPreferences.fxml"));
+		Parent root = loader.load();
+		
+		//Change the scene
+		UserPreferenceController UserPrefCtrl = loader.getController();
+		UserPrefCtrl.RecieveName(name);
+		Scene scene2 = new Scene(root);
+		
+		//Get the stage information
+		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		
+		window.setScene(scene2);
+		window.show();
 	}
 	
     @FXML
@@ -80,7 +120,13 @@ public class roomController {
 		
 		if (!MessageBoxTextField.getText().trim().isEmpty())
 		{
-			messages.add(new Label("You: " + MessageBoxTextField.getText()));
+<<<<<<< HEAD
+			Label newMessage = new Label("You: " + MessageBoxTextField.getText());
+			newMessage.setTextFill(currentColor);
+			messages.add(newMessage);
+=======
+			messages.add(new Label("You: " + MessageBoxTextField.getText() + "\n"+ formattedDate)); //Add timestamp to bottom of message
+>>>>>>> 3579b084fbfedddc2c461bd9c78c1462a755a7b1
             messages.get(index).setAlignment(Pos.BOTTOM_LEFT);
             messages.get(index).setId("chat");
             messages.get(index).setWrapText(true);;
@@ -94,9 +140,20 @@ public class roomController {
 		
 	}
 	
+	
 	public void transferName(String text) {
 		name = text;
 		client = new Client("localhost", 7654, name, receiveBoxSend, chatBoxSend);
 		displayNameLabel.setText(name);
+	}
+	
+	public void setLabelColor(Color NewColor)
+	{
+		currentColor = NewColor;
+	}
+	
+	public void setIcon(Image newImage)
+	{
+		DisplayIconImageView.setImage(newImage);
 	}
 }

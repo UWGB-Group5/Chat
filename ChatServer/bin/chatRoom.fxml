@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomController">
    <children>
       <Pane prefHeight="516.0" prefWidth="192.0" style="-fx-background-color: green;">
          <children>
@@ -21,6 +21,9 @@
                   <Image url="@phoenix.jpg" />
                </image>
             </ImageView>
+            <ImageView fx:id="DisplayIconImageView" fitHeight="48.0" fitWidth="63.0" layoutX="65.0" layoutY="427.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="UserPreferencesButton" layoutX="41.0" layoutY="190.0" mnemonicParsing="false" onAction="#UserPreferencesButtonPressed" prefHeight="35.0" prefWidth="108.0" text="User Preferences" />
+            <Label layoutX="63.0" layoutY="379.0" text="Display Icon" />
          </children>
       </Pane>
       <TextField fx:id="MessageBoxTextField" alignment="TOP_LEFT" layoutX="307.0" layoutY="419.0" prefHeight="83.0" prefWidth="403.0" promptText="Type your message..." />
