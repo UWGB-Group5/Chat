@@ -24,7 +24,7 @@ public class Client {
    */
 	
 	public static DatagramSocket socket;
-	private FileHandler fhl = new FileHandler("ChatHistory.txt");
+	private FileManager fhl = new FileManager("ChatHistory.txt");
 	private InetAddress address;
 	private int port;
 	private String name;

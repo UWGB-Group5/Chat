@@ -5,12 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-public class FileHandler {
+public class FileManager {
 	
 	public String fileName;
 	public BufferedWriter buffer;
 
-	public FileHandler(String fileName) {
+	public FileManager(String fileName) {
 		this.fileName = fileName;
 	}
 	
