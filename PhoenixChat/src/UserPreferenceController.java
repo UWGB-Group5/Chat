@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 public class UserPreferenceController {
 	
 	String currentName;
-	String newName;
+	String newName = " ";
 	Color currentColor = Color.BLACK;
 	Color newColor;
 	Image currentImage;
@@ -121,7 +121,7 @@ public class UserPreferenceController {
 	
 	public String SendName()
 	{
-		if (newName == currentName || newName == null || UsernameTextField.getText() != "EnterNewName")
+		if (newName == currentName || UsernameTextField.getText() == "EnterNewName")
 		{
 			return currentName;
 		}
