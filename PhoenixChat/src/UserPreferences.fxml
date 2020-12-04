@@ -29,7 +29,7 @@
             <ColorPicker fx:id="ColorPicker" layoutX="36.0" layoutY="217.0" onAction="#ColorPickerChanged" />
             <Button fx:id="ChangeImageButton" layoutX="33.0" layoutY="308.0" mnemonicParsing="false" onAction="#ChangeImageButtonPressed" prefHeight="26.0" prefWidth="130.0" text="ChangeImage" />
             <ImageView fx:id="IconPreview" fitHeight="108.0" fitWidth="139.0" layoutX="29.0" layoutY="365.0" pickOnBounds="true" preserveRatio="true" />
-            <BorderPane layoutX="282.0" layoutY="495.0" prefHeight="17.0" prefWidth="34.0" />
+            <BorderPane fx:id="borderPane" layoutX="282.0" layoutY="495.0" prefHeight="17.0" prefWidth="34.0" />
             <TextField fx:id="UsernameTextField" layoutX="34.0" layoutY="120.0" text="EnterNewName" />
             <Label layoutX="36.0" layoutY="263.0" text="Chat Icon">
                <font>
